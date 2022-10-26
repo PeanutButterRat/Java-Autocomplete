@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "document.root",
+    "type": "java.lang.String",
+    "description": "Root directory to store documents'"
+  },
+  {
+    "name": "backup.file",
+    "type": "java.lang.String",
+    "description": "backup file path"
+  }
+]}
