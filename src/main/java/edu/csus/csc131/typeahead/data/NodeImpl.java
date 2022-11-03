@@ -5,22 +5,37 @@ import java.util.List;
 
 //ToDo: provide real implementation for this class
 public class NodeImpl implements Node {
-	public NodeImpl() {
-		
+	
+	private ArrayList<NodeImpl> children;
+	private int count;
+	private char letter;
+	private boolean isWord;
+	
+	
+	public NodeImpl(char letter) {
+		this.children = new ArrayList<NodeImpl>();
+		this.count = 0;
+		this.letter = letter;
+		this.isWord = false;
 	}
 	
 	@Override
 	public boolean isWord() {
-		return false;
+		return this.isWord;
 	}
 
 	@Override
 	public void setWord(boolean isWord) {
+		this.isWord = isWord;
 	}
 	
 	@Override
 	public Node getChild(Character c) {
-		// TODO Auto-generated method stub
+		for (NodeImpl node : this.children) {
+			if (node.getLetter() == c) {
+				return node;
+			}
+		}
 		return null;
 	}	
 	
@@ -38,5 +53,16 @@ public class NodeImpl implements Node {
 	public List<String> getSuggestions() {
 		return new ArrayList<String>();
 	}
-
+	
+	public char getLetter() {
+		return this.letter;
+	}
+	
+	public int getCount() {
+		return this.count;
+	}
+	
+	public void setCount(int count) {
+		this.count = count;
+	}
 }

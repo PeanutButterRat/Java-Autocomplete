@@ -45,7 +45,7 @@ public class TrieImpl extends Trie {
 	@Override
 	public List<String> getSuggestions(String prefix) {
 		logger.trace("getSuggestions started");		
-
+		
 		logger.trace("getSuggestions completed");		
 		return new ArrayList<String>();
 	}
