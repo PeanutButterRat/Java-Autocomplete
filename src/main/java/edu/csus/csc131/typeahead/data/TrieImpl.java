@@ -44,10 +44,16 @@ public class TrieImpl extends Trie {
 
 	@Override
 	public List<String> getSuggestions(String prefix) {
-		logger.trace("getSuggestions started");		
-		
+		logger.trace("getSuggestions started");	
+		List <String> words =new ArrayList<String>();
+		Node working = this.getRoot();
+		for(int i =0; i<prefix.length();i++) {
+			working=working.getChild(prefix.charAt(i));
+			if (working == null) return words;
+		}
+		words = working.getSuggestions();
 		logger.trace("getSuggestions completed");		
-		return new ArrayList<String>();
+		return words;
 	}
 
 }
