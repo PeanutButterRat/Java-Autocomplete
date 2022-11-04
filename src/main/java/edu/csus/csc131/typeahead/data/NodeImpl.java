@@ -65,7 +65,8 @@ public class NodeImpl implements Node {
 
     @Override
     public List<String> getSuggestions() {
-        return this.getSuggetionHelper(new ArrayList<String>(), "");
+        ArrayList<String> suggestions = this.getSuggetionHelper(new ArrayList<String>(), "");
+        return suggestions.subList(0, 5);
     }
     
     /**
