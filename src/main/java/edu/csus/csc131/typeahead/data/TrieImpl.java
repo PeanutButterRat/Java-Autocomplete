@@ -44,16 +44,20 @@ public class TrieImpl extends Trie {
 
 	@Override
 	public List<String> getSuggestions(String prefix) {
-		logger.trace("getSuggestions started");	
-		List <String> words =new ArrayList<String>();
-		Node working = this.getRoot();
-		for(int i =0; i<prefix.length();i++) {
-			working=working.getChild(prefix.charAt(i));
-			if (working == null) return words;
+		logger.trace("getSuggestions started");
+		
+		List <String> suggestions = new ArrayList<String>();
+		Node current = this.getRoot();
+		
+		// Iterate though the given prefix, searching for the parent node to dfs upon.
+		for (int i = 0; i < prefix.length(); i++) {
+			current = current.getChild(prefix.charAt(i));
+			if (current == null) return suggestions;  // There are no words starting with the given prefix, return.
 		}
-		words = working.getSuggestions();
+		suggestions = current.getSuggestions();
+		
 		logger.trace("getSuggestions completed");		
-		return words;
+		return suggestions;
 	}
 
 }
