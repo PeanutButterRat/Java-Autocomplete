@@ -13,11 +13,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class TrieImpl extends Trie {
 	private static Logger logger = LoggerFactory.getLogger(TrieImpl.class);	
-
+	
+	
+	public TrieImpl() {
+		super();
+	}
+	
 	public TrieImpl(@Value("${backup.file}") String backupFilePath) throws IOException {
 		super(backupFilePath);
 	}
-
+	
+	public void buildTestTree(String text) {
+		this.buildTree(text);
+	}
+	
 	@Override
 	Node buildTree(String str) {
 		logger.trace("buildTree started");
@@ -59,5 +68,6 @@ public class TrieImpl extends Trie {
 		logger.trace("getSuggestions completed");		
 		return suggestions;
 	}
+
 
 }

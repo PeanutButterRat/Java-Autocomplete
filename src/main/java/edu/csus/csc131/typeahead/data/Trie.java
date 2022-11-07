@@ -15,6 +15,10 @@ public abstract class Trie {
 	private Node root;
 	private final Path backupFilePath;
 	
+	public Trie() {
+		this.backupFilePath = null;
+	}
+	
 	public Trie(String backupFile) throws IOException {
 		this.backupFilePath = Paths.get(backupFile);
 		restore();
