@@ -6,26 +6,17 @@ import java.util.List;
 
 public class NodeImpl implements Node {
 
-    private ArrayList<NodeImpl> children;  // Stores the children nodes of this.
-    private int count;  // Stores number of words that end in the trie on this node.
+    private ArrayList<NodeImpl> children = new ArrayList<NodeImpl>();  // Stores the children nodes of this.
+    private int count = 0;  // Stores number of words that end in the trie on this node.
     private char letter;  // Letter that the trie node represents.
-    private boolean isWord;  // Tracks if this node ends a valid word.
-  
-    /**
-	 * Base constructor simply initializes letter to null.
-	 */	
+    private boolean isWord = false;  // Tracks if this node ends a valid word.
+
     public NodeImpl() {
-        this.children = new ArrayList<NodeImpl>();
-        this.count = 0;
-        this.letter = '\0';
-        this.isWord = false;
+    	this.letter = '\0';
     }
     
     public NodeImpl(char letter) {
-        this.children = new ArrayList<NodeImpl>();
-        this.count = 0;
         this.letter = letter;
-        this.isWord = false;
     }
 
     @Override
