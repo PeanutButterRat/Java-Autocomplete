@@ -45,7 +45,7 @@ public class TrieImpl extends Trie {
 		int freq = 0;
 		String res = null;
 		String topWord[];
-		topWord = new String[4];
+		topWord = new String[5];
 		int topWordCount = 0;
 		
 		for (int i = 0; i < wordCount; i++) {
@@ -60,7 +60,7 @@ public class TrieImpl extends Trie {
 	            res = arr[i];
 	            freq = count;
 	            
-	            if(topWordCount < 4) {
+	            if(topWordCount <= 4) {
 	            	topWord[topWordCount] = res;
 	            }
 	            else {
@@ -71,7 +71,7 @@ public class TrieImpl extends Trie {
 	    }
 		
 		
-		logger.trace("The Most common words are: "+ topWord[0]+ topWord[1]+ topWord[2]+ topWord[3]+ topWord[4]);
+		logger.trace("The Most common words are: "+ topWord[0]+ topWord[1]+ topWord[2]+ topWord[3]+ topWord[3]);
 		logger.trace("buildTree completed");
 		return new NodeImpl('\0');
 	}
