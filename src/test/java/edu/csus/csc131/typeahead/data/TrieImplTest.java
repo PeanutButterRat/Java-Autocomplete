@@ -70,7 +70,7 @@ class TrieImplTest {
 	@Test
 	void testGetSuggestions_4() {
 		ArrayList<String> suggestions = new ArrayList<>();  // Expected values.
-		String prefix = "ap";
+		String prefix = "app";
 		String text = "app apple apples application apricot appearance apprentice";
 		
 		String[] words = {"app", "apple", "apples", "application", "apricot"};  // Expected values.
