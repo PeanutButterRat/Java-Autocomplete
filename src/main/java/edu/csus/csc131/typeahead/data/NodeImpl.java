@@ -68,7 +68,7 @@ public class NodeImpl implements Node {
 
         String newPostfix = postfix;  // Build the current post-fix with the current letter.
         
-        if(this.letter!='\0') {newPostfix = newPostfix + this.letter;} /////HEY MATT ADDED THIS LINE AND CHANGED THE LAST TO MAKE SURE THE ROOT WAS NOT ADDED TO THE BEGINING OF EACH WORD
+        if(this.letter!='\0') {newPostfix = newPostfix + this.letter;}
         
         if (this.isWord) {
             words.add(newPostfix);
@@ -92,6 +92,7 @@ public class NodeImpl implements Node {
     /**
 	 * Returns the number of words end at the current node in the trie.
 	 */	
+    @Override
     public int getCount() {
         return this.count;
     }

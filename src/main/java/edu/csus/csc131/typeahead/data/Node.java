@@ -41,5 +41,6 @@ public interface Node {
 	 * Return top suggestions for a prefix ends at the current node
 	 */	
 	List<String> getSuggestions();
-
+	
+	int getCount();
 }

@@ -1,9 +1,11 @@
 package edu.csus.csc131.typeahead.data;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.Collections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,42 +26,45 @@ public class TrieImpl extends Trie {
 		super(backupFilePath);
 	}
 	
-	public Node buildTestTree(String text) {
-		Node root = buildTree(text);
-		return root;
-	}
 	
 	@Override
 	Node buildTree(String str) {
 		logger.trace("buildTree started");
-		NodeImpl root = new NodeImpl();
+		
+		NodeImpl root = new NodeImpl();  // Root of the trie.
 		StringTokenizer st = new StringTokenizer(str," ");
 		int wordCount = st.countTokens();
-		//logger.trace("Number of words in the document: " + words);
-		//Loads the Tokens into an array
-		for(int i =0; i < wordCount; i++) {
-			String current = st.nextToken();
+		
+		// Iterate over each word in the document, formatting it, and adding it to the trie.
+		for (int i = 0; i < wordCount; i++) {
+			String current = st.nextToken();  // Current word.
 			current = current.replaceAll("[,\t\n \".;!?0-9]", "");
-			if(current.length()>2){
-				this.addWord(current.toLowerCase(), root); /////HEY MATT ADDED TOLOWERCASE
+			
+			if(current.length() >= 3) {  // All valid words must be at least 3 characters in length.
+				this.addWord(current.toLowerCase(), root);
 			}
 		}
 
 		logger.trace("buildTree completed");
+		
 		return root;
 	}
 	
 	private void addWord(String word,NodeImpl root) {
 		char letter = word.charAt(0);
-		word= word.substring(1,word.length());
+		String slice = word.substring(1, word.length());  // Remove the first letter from the prefix (recursive step).
+		
 		root.addChild(letter);
-		NodeImpl next = root.getChild(letter);
-		if(word.length()==0) {					///////HEY MATT CHANGED 1 to 0
+		NodeImpl next = root.getChild(letter);  // Next node build the trie from.
+		
+		// Base case: reached the end of the word.
+		if(slice.length() == 0) {
 			next.incrementCount();
 			next.setWord(true);
 			return;
 		}
-		this.addWord(word,next);
+		
+		this.addWord(slice, next);
 	}
 
 	@Override
@@ -77,12 +82,12 @@ public class TrieImpl extends Trie {
 		logger.trace("deSerialize completed");	
 		return new NodeImpl('\0');
 	}
-
+	
 	@Override
 	public List<String> getSuggestions(String prefix) {
 		logger.trace("getSuggestions started");
 		
-		List <String> suggestions = new ArrayList<String>();
+		List<String> suggestions = new ArrayList<String>();
 		Node current = this.getRoot();
 		
 		// Iterate though the given prefix, searching for the parent node to dfs upon.
@@ -93,17 +98,64 @@ public class TrieImpl extends Trie {
 		
 		suggestions = current.getSuggestions();
 		
-		if(prefix.length()>1) {
-			String prepre = prefix.substring(0,prefix.length()-1);
-			for(int i = 0;i<suggestions.size();i++) {
-				suggestions.set(i, prepre + suggestions.get(i));
-			}
+		// ?
+		//if (prefix.length() > 1) {
+		// Remove the first letter of the prefix because it has already been added to the suggestion.
+		String shavedPrefix = prefix.substring(0, prefix.length() - 1);
+		for(int i = 0; i < suggestions.size(); i++) {
+			suggestions.set(i, shavedPrefix + suggestions.get(i));
 		}
-		//sort suggestions return top 5
+		//}
+		
+		// Groom the results.
+		suggestions.sort(null);  // First sort the words alphabetically.
+		bubbleSortByOccurrence(suggestions);  // Stable sort by occurrence to finalize the order.
+		
+		// Extract the top 5 results if there are more than five results.
+		if (suggestions.size() > 5) {
+			suggestions = suggestions.subList(0, 5);  // Extract the top 5 results if there are more than five results.
+		}
 		
 		logger.trace("getSuggestions completed");		
 		return suggestions;
 	}
-
-
+	
+	
+	/**
+	 * Sorts the suggestions extracted from the trie by the occurrence of each word in place.
+	 */
+	private void bubbleSortByOccurrence(List<String> words) {
+		ArrayList<Integer> occurrences = new ArrayList<>();
+		
+		// Get the occurrence of  each word within the trie.
+		for (String word : words) {
+			occurrences.add(getWordOccurrence(word));
+		}
+		
+		// Bubble sort the occurrences while mirroring the same sort in words.
+		for (int count = 0; count < occurrences.size() - 1; count++) {
+			for (int i = 0; i < occurrences.size() - 1; i++) {				
+				if (occurrences.get(i) < occurrences.get(i + 1)) {
+					Collections.swap(occurrences, i, i + 1);
+					Collections.swap(words, i, i + 1);
+				}
+			}
+		}
+		
+	}
+	
+	
+	/**
+	 * Returns the number of occurrences of the given word within the trie.
+	 */
+	private int getWordOccurrence(String word) {
+		Node current = this.getRoot();
+		
+		for (int i = 0; i < word.length(); i++) {
+			current = current.getChild(word.charAt(i));
+			if (current == null) return 0;
+		}
+		
+		return current.getCount();
+	}
 }

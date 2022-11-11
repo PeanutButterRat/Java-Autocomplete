@@ -22,15 +22,15 @@ class TrieImplTest {
 	@Test
 	void testGetSuggestions_1() {
 		ArrayList<String> suggestions = new ArrayList<>();
-		String prefix = "";
+		String prefix = "l";
 		String text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\r\n"
 				+ "Curabitur sit amet ex pretium, ultrices metus sit amet, elementum mi.\r\n"
 				+ "Cras luctus dapibus scelerisque. Interdum et malesuada fames ac ante ipsum primis in faucibus.\r\n"
-				+ "Sed vel tortor scelerisque, ultricies tellus sed, mattis nisl. Morbi sit amet magna nec nisl commodo laoreet ac id diam.\r\n"
+				+ "Sed vel luctus tortor scelerisque, ultricies tellus lorem sed, mattis nisl. Morbi sit amet magna luctus nec nisl commodo laoreet ac id diam.\r\n"
 				+ "Praesent lacinia, massa ac congue tincidunt, odio mi venenatis elit, at venenatis ex nisl sit amet turpis.\r\n"
-				+ "Sed aliquet pretium finibus. Nulla eget lobortis nulla.";
+				+ "Sed aliquet pretium finibus. Nulla eget lobortis nulla lorem.";
 		
-		String[] words = {"lorem", "ipsum", "dolor", "sit", "amet"};  // Expected values.
+		String[] words = {"lorem", "luctus", "lacinia", "laoreet", "lobortis"};  // Expected values.
 		for (String word : words) {
 			suggestions.add(word);
 		}
@@ -43,10 +43,10 @@ class TrieImplTest {
 	@Test
 	void testGetSuggestions_2() {
 		ArrayList<String> suggestions = new ArrayList<>();
-		String prefix = "";
-		String text = "FiRst SeCoNd ThriRD foUTH FifTH";
+		String prefix = "f";
+		String text = "FiRst SeCoNd ThriRD foUrTH FifTH";
 		
-		String[] words = {"first", "second", "third", "fourth", "fifth"};  // Expected values.
+		String[] words = {"fifth",  "first", "fourth"};  // Expected values.
 		for (String word : words) {
 			suggestions.add(word);
 		}
@@ -60,7 +60,7 @@ class TrieImplTest {
 	void testGetSuggestions_3() {
 		ArrayList<String> suggestions = new ArrayList<>();  // Expected values.
 		String prefix = "prefix_is_too_long";
-		String text = "";
+		String text = "this is a sample text: prefix_is_too_lon";
 		
 		TrieImpl trie = new TrieImpl();
 		trie.setRoot(trie.buildTree(text));
@@ -73,7 +73,7 @@ class TrieImplTest {
 		String prefix = "app";
 		String text = "app apple apples application apricot appearance apprentice";
 		
-		String[] words = {"app", "apple", "apples", "application", "apricot"};  // Expected values.
+		String[] words = {"app", "appearance", "apple", "apples", "application"};  // Expected values.
 		for (String word : words) {
 			suggestions.add(word);
 		}
