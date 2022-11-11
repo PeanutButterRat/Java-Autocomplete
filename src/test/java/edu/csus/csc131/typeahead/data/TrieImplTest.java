@@ -36,7 +36,7 @@ class TrieImplTest {
 		}
 		
 		TrieImpl trie = new TrieImpl();
-		trie.buildTestTree(text);
+		trie.setRoot(trie.buildTree(text));
 		assertEquals(suggestions, trie.getSuggestions(prefix));
 	}
 	
@@ -44,7 +44,7 @@ class TrieImplTest {
 	void testGetSuggestions_2() {
 		ArrayList<String> suggestions = new ArrayList<>();
 		String prefix = "";
-		String text = "FiRst,SeCoNd, ThriRD,foUTH, FifTH";
+		String text = "FiRst SeCoNd ThriRD foUTH FifTH";
 		
 		String[] words = {"first", "second", "third", "fourth", "fifth"};  // Expected values.
 		for (String word : words) {
@@ -52,7 +52,7 @@ class TrieImplTest {
 		}
 		
 		TrieImpl trie = new TrieImpl();
-		trie.buildTestTree(text);
+		trie.setRoot(trie.buildTree(text));
 		assertEquals(suggestions, trie.getSuggestions(prefix));
 	}
 	
@@ -63,14 +63,14 @@ class TrieImplTest {
 		String text = "";
 		
 		TrieImpl trie = new TrieImpl();
-		trie.buildTestTree(text);
+		trie.setRoot(trie.buildTree(text));
 		assertEquals(suggestions, trie.getSuggestions(prefix));
 	}
 	
 	@Test
 	void testGetSuggestions_4() {
 		ArrayList<String> suggestions = new ArrayList<>();  // Expected values.
-		String prefix = "";
+		String prefix = "ap";
 		String text = "app apple apples application apricot appearance apprentice";
 		
 		String[] words = {"app", "apple", "apples", "application", "apricot"};  // Expected values.
@@ -79,7 +79,23 @@ class TrieImplTest {
 		}
 		
 		TrieImpl trie = new TrieImpl();
-		trie.buildTestTree(text);
+		trie.setRoot(trie.buildTree(text));
+		assertEquals(suggestions, trie.getSuggestions(prefix));
+	}
+	
+	@Test
+	void testGetSuggestions_5() {
+		ArrayList<String> suggestions = new ArrayList<>();  // Expected values.
+		String prefix = "th";
+		String text = "the them these those that that that them you me two th";
+		
+		String[] words = {"that", "them", "the", "these", "those"};  // Expected values.
+		for (String word : words) {
+			suggestions.add(word);
+		}
+		
+		TrieImpl trie = new TrieImpl();
+		trie.setRoot(trie.buildTree(text));
 		assertEquals(suggestions, trie.getSuggestions(prefix));
 	}
 }

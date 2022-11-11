@@ -56,6 +56,10 @@ public abstract class Trie {
 		logger.trace("update completed");
 	}	
 	
+	public void setRoot(Node root) {
+		this.root = root;
+	}
+	
 	abstract Node buildTree(String str);
 	
 	abstract String serialize();

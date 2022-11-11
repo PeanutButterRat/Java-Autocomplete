@@ -30,7 +30,7 @@ public class NodeImpl implements Node {
     }
 
     @Override
-    public Node getChild(Character c) {
+    public NodeImpl getChild(Character c) {
     	// Iterate over the children to see if any of them contain the target letter.
         for (NodeImpl node : this.children) {
             if (node.getLetter() == c) {
@@ -57,7 +57,8 @@ public class NodeImpl implements Node {
     @Override
     public List<String> getSuggestions() {
         ArrayList<String> suggestions = this.getSuggetionHelper(new ArrayList<String>(), "");
-        return suggestions.subList(0, 5);
+        return suggestions;
+        //return suggestions.subList(0, 5);
     }
     
     /**
@@ -65,7 +66,9 @@ public class NodeImpl implements Node {
 	 */	
     private ArrayList<String> getSuggetionHelper(ArrayList<String> words, String postfix) {
 
-        String newPostfix = postfix + this.letter;  // Build the current post-fix with the current letter.
+        String newPostfix = postfix;  // Build the current post-fix with the current letter.
+        
+        if(this.letter!='\0') {newPostfix = newPostfix + this.letter;} /////HEY MATT ADDED THIS LINE AND CHANGED THE LAST TO MAKE SURE THE ROOT WAS NOT ADDED TO THE BEGINING OF EACH WORD
         
         if (this.isWord) {
             words.add(newPostfix);
