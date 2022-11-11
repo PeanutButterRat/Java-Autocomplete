@@ -42,5 +42,8 @@ public interface Node {
 	 */	
 	List<String> getSuggestions();
 	
+    /**
+	 * Returns the number of words that end at the current node.
+	 */	
 	int getCount();
 }

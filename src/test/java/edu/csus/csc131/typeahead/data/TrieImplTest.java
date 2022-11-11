@@ -98,4 +98,20 @@ class TrieImplTest {
 		trie.setRoot(trie.buildTree(text));
 		assertEquals(suggestions, trie.getSuggestions(prefix));
 	}
+	
+	@Test
+	void testGetSuggestions_6() {
+		ArrayList<String> suggestions = new ArrayList<>();  // Expected values.
+		String prefix = "how";
+		String text = "howitzer howlo howl whose howto howitzer howard howard howitzer whodunnit hown whoisit";
+		
+		String[] words = {"howitzer", "howard", "howl", "howlo", "hown"};  // Expected values.
+		for (String word : words) {
+			suggestions.add(word);
+		}
+		
+		TrieImpl trie = new TrieImpl();
+		trie.setRoot(trie.buildTree(text));
+		assertEquals(suggestions, trie.getSuggestions(prefix));
+	}
 }

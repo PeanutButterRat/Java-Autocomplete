@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Collections;
+import java.lang.Character;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,17 @@ public class TrieImpl extends Trie {
 		// Iterate over each word in the document, formatting it, and adding it to the trie.
 		for (int i = 0; i < wordCount; i++) {
 			String current = st.nextToken();  // Current word.
-			current = current.replaceAll("[,\t\n \".;!?0-9]", "");
+
+			// Remove all the letters in the word that are not alphanumeric.
+			int j = 0;
+			while (j < current.length()) {				
+				if (!(Character.isLetterOrDigit(current.charAt(j)))) {
+					current = current.substring(0, j) + current.substring(j + 1, current.length());
+				}
+				else {
+					j++;
+				}
+			}
 			
 			if(current.length() >= 3) {  // All valid words must be at least 3 characters in length.
 				this.addWord(current.toLowerCase(), root);
@@ -98,14 +109,12 @@ public class TrieImpl extends Trie {
 		
 		suggestions = current.getSuggestions();
 		
-		// ?
-		//if (prefix.length() > 1) {
+
 		// Remove the first letter of the prefix because it has already been added to the suggestion.
 		String shavedPrefix = prefix.substring(0, prefix.length() - 1);
 		for(int i = 0; i < suggestions.size(); i++) {
 			suggestions.set(i, shavedPrefix + suggestions.get(i));
 		}
-		//}
 		
 		// Groom the results.
 		suggestions.sort(null);  // First sort the words alphabetically.
@@ -132,7 +141,7 @@ public class TrieImpl extends Trie {
 			occurrences.add(getWordOccurrence(word));
 		}
 		
-		// Bubble sort the occurrences while mirroring the same sort in words.
+		// Bubble sort the occurrences while maintaining the corresponding order in words.
 		for (int count = 0; count < occurrences.size() - 1; count++) {
 			for (int i = 0; i < occurrences.size() - 1; i++) {				
 				if (occurrences.get(i) < occurrences.get(i + 1)) {
@@ -141,7 +150,6 @@ public class TrieImpl extends Trie {
 				}
 			}
 		}
-		
 	}
 	
 	
