@@ -44,38 +44,7 @@ public class TrieImpl extends Trie {
 				this.addWord(current.toLowerCase(), root); /////HEY MATT ADDED TOLOWERCASE
 			}
 		}
-		/*
-		int freq = 0;
-		String res = null;
-		String topWord[];
-		topWord = new String[5];
-		int topWordCount = 0;
-		
-		for (int i = 0; i < wordCount; i++) {
-	        int count = 0;
-	        for (int j = i + 1; j < wordCount; j++) {
-	            if (arr[j] == arr[i]) {
-	                count++;
-	            }
-	        }
-		
-	        if (count >= freq) {
-	            res = arr[i];
-	            freq = count;
-	            
-	            if(topWordCount <= 4) {
-	            	topWord[topWordCount] = res;
-	            }
-	            else {
-	            	topWordCount = 0;
-	            	topWord[topWordCount] = res;
-	            }
-	        }
-	    }
-		
-		
-		logger.trace("The Most common words are: "+ topWord[0]+ topWord[1]+ topWord[2]+ topWord[3]+ topWord[3]);
-		*/
+
 		logger.trace("buildTree completed");
 		return root;
 	}
@@ -126,8 +95,8 @@ public class TrieImpl extends Trie {
 		
 		if(prefix.length()>1) {
 			String prepre = prefix.substring(0,prefix.length()-1);
-			for(String i : suggestions) {
-				i = prepre + i;
+			for(int i = 0;i<suggestions.size();i++) {
+				suggestions.set(i, prepre + suggestions.get(i));
 			}
 		}
 		//sort suggestions return top 5
