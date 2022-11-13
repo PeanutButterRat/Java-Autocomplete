@@ -18,7 +18,52 @@ public class NodeImpl implements Node {
     public NodeImpl(char letter) {
         this.letter = letter;
     }
+    
+    
+    public NodeImpl(String string) {
+    	String slice = string.substring(1, string.length() - 1);
+        String[] sections = slice.split(":", 3);
 
+        // Store the node's data.
+        this.letter = sections[0].charAt(0);
+        this.count = Integer.parseInt(sections[1]);
+        
+        // If there are instances of the last word ending at the given node, it is a word.
+        if (this.count > 0) {
+        	this.isWord = true;
+        }
+        
+        String childrenSubstring = sections[2].substring(1, sections[2].length());  // Array of nodes in string format minus the opening bracket '['.
+        int braceCount = 0;  // Tracks the number of braces like a stack.
+        ArrayList<String> children = new ArrayList<>();  // String representations of the children nodes within the array.
+        int start = 0;  // Tracks the starting index of the child substring.
+        
+        for (int end = 0; end < childrenSubstring.length(); end++) {
+            char character = childrenSubstring.charAt(end);
+
+            if (character == ']' && braceCount == 0) {  // Found the end of the array, no more children.
+                break;
+            }
+            else if (character == '{') {  // Found an opening brace, could be a child or nested child.
+                braceCount++;
+            }
+
+            if (character == '}') {  // Found a closing brace, either a child or nested child definition ends here.
+                braceCount--;
+
+                if (braceCount == 0) {  // If the stack is empty, the closing brace signified a child, not a nested one. Add this to children.
+                    children.add(childrenSubstring.substring(start, end + 1));
+                    start = end + 2;  // Skip the possible comma delimiter.
+                }
+            }
+        }
+        
+        // Recursively parse the nested children.
+        for (String childString : children) {
+        	this.children.add(new NodeImpl(childString));
+        }
+    }
+    
     @Override
     public boolean isWord() {
         return this.isWord;
@@ -98,5 +143,29 @@ public class NodeImpl implements Node {
 	 */	
     public void incrementCount() {
         this.count++;
+    }
+    
+    /**
+	 * Sets count member.
+	 */	
+    public void setCount(int count) {
+    	this.count = count;
+    }
+    
+    public String toString() {
+    	// General format: {letter:count:[children]}
+    	String data = String.format("{%c:%d:[", getLetter(), getCount());
+    	
+    	// Add the children.
+    	if (!children.isEmpty()) {
+        	for (NodeImpl child : this.children) {
+        		data += child.toString() + ",";
+        	}
+        	data = data.substring(0, data.length() - 1);  // Remove the trailing comma for the last child.
+    	}
+    	
+    	data += "]}";  // Add the enclosure.
+    	
+    	return data;
     }
 }

@@ -12,11 +12,57 @@ import org.junit.jupiter.api.Test;
 class TrieImplTest {
 
 	@Test
-	void testSerialize() {
+	void testSerialize_1() {
+		String text = "cat";
+		TrieImpl trie = new TrieImpl();
+		trie.setRoot(trie.buildTree(text));
+		
+		String answer = "{\0:0:[{c:0:[{a:0:[{t:1:[]}]}]}]}";
+		
+		assertEquals(answer, trie.getRoot().toString());
+	}
+	
+	@Test
+	void testSerialize_2() {
+		String text = "tha thb thc thd";
+		TrieImpl trie = new TrieImpl();
+		trie.setRoot(trie.buildTree(text));
+		
+		String answer = "{\0:0:[{t:0:[{h:0:[{a:1:[]},{b:1:[]},{c:1:[]},{d:1:[]}]}]}]}";
+		
+		assertEquals(answer, trie.getRoot().toString());
 	}
 
 	@Test
-	void testDeSerialize() {
+	void testDeSerialize_1() {
+		String text = "Supercalifragilisticexpialidocious";
+		String prefix = "Supercalifragilisticexpi";
+		
+		TrieImpl trie = new TrieImpl();
+		trie.setRoot(trie.buildTree(text));
+		ArrayList<String> suggestions = (ArrayList<String>) trie.getSuggestions(prefix);
+		
+		
+		trie.setRoot(new NodeImpl(trie.serialize()));  // Convert the trie into a string and then deserialize it.
+		
+		System.out.println(trie.getRoot());
+		assertEquals(suggestions, trie.getSuggestions(prefix));  // Check if the suggestions are the same.
+	}
+	
+	@Test
+	void testDeSerialize_2() {
+		String text = "FiRst";
+		String prefix = "f";
+		
+		TrieImpl trie = new TrieImpl();
+		trie.setRoot(trie.buildTree(text));
+		ArrayList<String> suggestions = (ArrayList<String>) trie.getSuggestions(prefix);
+		
+		
+		trie.setRoot(new NodeImpl(trie.serialize()));  // Convert the trie into a string and then deserialize it.
+		
+		System.out.println(trie.getRoot());
+		assertEquals(suggestions, trie.getSuggestions(prefix));  // Check if the suggestions are the same.
 	}
 
 	@Test

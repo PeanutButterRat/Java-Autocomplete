@@ -81,17 +81,21 @@ public class TrieImpl extends Trie {
 	@Override
 	String serialize() {
 		logger.trace("serialize started");		
-
+		
+		String data = getRoot().toString();
+		
 		logger.trace("serialize completed");		
-		return "test" + System.currentTimeMillis();
+		return data;
 	}
 
 	@Override
 	Node deSerialize(String str) {
-		logger.trace("deSerialize started");		
+		logger.trace("deSerialize started");
+		
+		NodeImpl root = new NodeImpl(str);
 		
 		logger.trace("deSerialize completed");	
-		return new NodeImpl('\0');
+		return root;
 	}
 	
 	@Override

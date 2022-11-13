@@ -46,4 +46,10 @@ public interface Node {
 	 * Returns the number of words that end at the current node.
 	 */	
 	int getCount();
+	
+	
+	/**
+	 * Converts node to a string representation for serialization.
+	 */	
+	String toString();
 }
