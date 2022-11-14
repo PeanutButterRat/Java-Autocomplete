@@ -41,6 +41,8 @@ public abstract class Trie {
 		logger.trace("backup started");
 		
 		String content = serialize();
+		logger.trace(backupFilePath.toString());
+		logger.trace(content);
 		Files.writeString(backupFilePath, content, StandardOpenOption.WRITE);
 		
 		logger.trace("backup completed");		
