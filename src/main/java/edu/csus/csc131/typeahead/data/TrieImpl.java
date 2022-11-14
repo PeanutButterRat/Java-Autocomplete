@@ -19,14 +19,10 @@ public class TrieImpl extends Trie {
 	private static Logger logger = LoggerFactory.getLogger(TrieImpl.class);	
 	
 	
-//	public TrieImpl() {
-//		super();
-//	}
 	
 	public TrieImpl(@Value("${backup.file}") String backupFilePath) throws IOException {
 		super(backupFilePath);
 	}
-	
 	
 	@Override
 	Node buildTree(String str) {
