@@ -15,9 +15,9 @@ public abstract class Trie {
 	private Node root;
 	private final Path backupFilePath;
 	
-	public Trie() {
-		this.backupFilePath = null;
-	}
+//	public Trie() {
+//		this.backupFilePath = null;
+//	}
 	
 	public Trie(String backupFile) throws IOException {
 		this.backupFilePath = Paths.get(backupFile);
@@ -41,8 +41,6 @@ public abstract class Trie {
 		logger.trace("backup started");
 		
 		String content = serialize();
-		logger.trace(backupFilePath.toString());
-		logger.trace(content);
 		Files.writeString(backupFilePath, content, StandardOpenOption.WRITE);
 		
 		logger.trace("backup completed");		
