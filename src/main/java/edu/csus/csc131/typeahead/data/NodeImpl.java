@@ -21,6 +21,13 @@ public class NodeImpl implements Node {
     
     
     public NodeImpl(String string) {
+    	if (string.isEmpty()) {  // Backup is empty, return empty node.
+    		this.letter = '\0';
+    		this.count = 0;
+    		this.isWord = false;
+    		return;
+    	}
+    	
     	String slice = string.substring(1, string.length() - 1);
         String[] sections = slice.split(":", 3);
 
