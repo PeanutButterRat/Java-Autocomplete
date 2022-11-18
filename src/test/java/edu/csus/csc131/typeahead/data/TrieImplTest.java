@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 class TrieImplTest {
 	
-	public static final String FILEPATH = "data/backup/test.txt";
+	public static final String FILEPATH = "data/backup/trie.txt";
 	
 	@Test
 	void testSerialize_1() throws IOException {
@@ -47,7 +47,6 @@ class TrieImplTest {
 		
 		trie.setRoot(new NodeImpl(trie.serialize()));  // Convert the trie into a string and then deserialize it.
 		
-		System.out.println(trie.getRoot());
 		assertEquals(suggestions, trie.getSuggestions(prefix));  // Check if the suggestions are the same.
 	}
 	
@@ -62,8 +61,6 @@ class TrieImplTest {
 		
 		
 		trie.setRoot(new NodeImpl(trie.serialize()));  // Convert the trie into a string and then deserialize it.
-		
-		System.out.println(trie.getRoot());
 		assertEquals(suggestions, trie.getSuggestions(prefix));  // Check if the suggestions are the same.
 	}
 
