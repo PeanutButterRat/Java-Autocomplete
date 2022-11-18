@@ -115,7 +115,6 @@ public class NodeImpl implements Node {
     public List<String> getSuggestions() {
         ArrayList<String> suggestions = this.getSuggetionHelper(new ArrayList<String>(), "");
         return suggestions;
-        //return suggestions.subList(0, 5);
     }
     
     /**

@@ -4,9 +4,10 @@ package edu.csus.csc131.typeahead.data;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.Collections;
 import java.lang.Character;
+import java.util.HashMap;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,27 +29,34 @@ public class TrieImpl extends Trie {
 	Node buildTree(String str) {
 		logger.trace("buildTree started");
 		
-		NodeImpl root = new NodeImpl();  // Root of the trie.
-		StringTokenizer st = new StringTokenizer(str," ");
-		int wordCount = st.countTokens();
+		NodeImpl root = new NodeImpl();  // Root of the trie.		
+		ArrayList<String> words = new ArrayList<>();  // Words in the document.
+		
+		// Iterate through the entire string, separating words by non-alphanumeric characters.
+		int start = 0;
+		for (int i = 0; i < str.length(); i++) {
+			if (!Character.isLetterOrDigit(str.charAt(i))) {
+				words.add(str.substring(start, i));
+				
+				// Find the next alphanumeric character to start the next string on.
+				start = i + 1;
+				while (start < str.length() && !Character.isLetterOrDigit(str.charAt(start))) {
+					start++;
+				}
+				
+				i = start;  // i will point to one position after start on the next iteration.
+			}
+		}
+		
+		// Add the last word if applicable.
+		if (str.length() - start > 0) {
+			words.add(str.substring(start, str.length()));
+		}
 		
 		// Iterate over each word in the document, formatting it, and adding it to the trie.
-		for (int i = 0; i < wordCount; i++) {
-			String current = st.nextToken();  // Current word.
-
-			// Remove all the letters in the word that are not alphanumeric.
-			int j = 0;
-			while (j < current.length()) {				
-				if (!(Character.isLetterOrDigit(current.charAt(j)))) {
-					current = current.substring(0, j) + current.substring(j + 1, current.length());
-				}
-				else {
-					j++;
-				}
-			}
-			
-			if(current.length() >= 3) {  // All valid words must be at least 3 characters in length.
-				this.addWord(current.toLowerCase(), root);
+		for (String word : words) {
+			if(word.length() >= 3) {  // All valid words must be at least 3 characters in length.
+				this.addWord(word.toLowerCase(), root);
 			}
 		}
 
@@ -134,18 +142,20 @@ public class TrieImpl extends Trie {
 	 * Sorts the suggestions extracted from the trie by the occurrence of each word in place.
 	 */
 	private void bubbleSortByOccurrence(List<String> words) {
-		ArrayList<Integer> occurrences = new ArrayList<>();
+		HashMap<String, Integer> occurrences = new HashMap<>();
 		
 		// Get the occurrence of  each word within the trie.
 		for (String word : words) {
-			occurrences.add(getWordOccurrence(word));
+			occurrences.put(word, getWordOccurrence(word));
 		}
 		
 		// Bubble sort the occurrences while maintaining the corresponding order in words.
-		for (int count = 0; count < occurrences.size() - 1; count++) {
-			for (int i = 0; i < occurrences.size() - 1; i++) {				
-				if (occurrences.get(i) < occurrences.get(i + 1)) {
-					Collections.swap(occurrences, i, i + 1);
+		for (int count = 0; count < words.size() - 1; count++) {
+			for (int i = 0; i < words.size() - 1; i++) {
+				String first = words.get(i);
+				String second = words.get(i + 1);
+				
+				if (occurrences.get(first) < occurrences.get(second)) {
 					Collections.swap(words, i, i + 1);
 				}
 			}
