@@ -46,7 +46,6 @@ class TrieImplTest {
 		
 		
 		trie.setRoot(new NodeImpl(trie.serialize()));  // Convert the trie into a string and then deserialize it.
-		
 		assertEquals(suggestions, trie.getSuggestions(prefix));  // Check if the suggestions are the same.
 	}
 	
@@ -54,6 +53,39 @@ class TrieImplTest {
 	void testDeSerialize_2() throws IOException {
 		String text = "FiRst";
 		String prefix = "f";
+		
+		TrieImpl trie = new TrieImpl(FILEPATH);
+		trie.setRoot(trie.buildTree(text));
+		ArrayList<String> suggestions = (ArrayList<String>) trie.getSuggestions(prefix);
+		
+		
+		trie.setRoot(new NodeImpl(trie.serialize()));  // Convert the trie into a string and then deserialize it.
+		assertEquals(suggestions, trie.getSuggestions(prefix));  // Check if the suggestions are the same.
+	}
+	
+	@Test
+	void testDeSerialize_3() throws IOException {
+		String text = "ahlgkjhsdlkgjhasdjkgf334'3''4342342''''4''4'44''4'";
+		String prefix = "ahlgkjhsdlkgjhasdjkgf";
+		
+		TrieImpl trie = new TrieImpl(FILEPATH);
+		trie.setRoot(trie.buildTree(text));
+		ArrayList<String> suggestions = (ArrayList<String>) trie.getSuggestions(prefix);
+		
+		
+		trie.setRoot(new NodeImpl(trie.serialize()));  // Convert the trie into a string and then deserialize it.
+		assertEquals(suggestions, trie.getSuggestions(prefix));  // Check if the suggestions are the same.
+	}
+	
+	@Test
+	void testDeSerialize_4() throws IOException {
+		String prefix = "l";
+		String text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\r\n"
+				+ "Curabitur sit amet ex pretium, ultrices metus sit amet, elementum mi.\r\n"
+				+ "Cras luctus dapibus scelerisque. Interdum et malesuada fames ac ante ipsum primis in faucibus.\r\n"
+				+ "Sed vel luctus tortor scelerisque, ultricies tellus lorem sed, mattis nisl. Morbi sit amet magna luctus nec nisl commodo laoreet ac id diam.\r\n"
+				+ "Praesent lacinia, massa ac congue tincidunt, odio mi venenatis elit, at venenatis ex nisl sit amet turpis.\r\n"
+				+ "Sed aliquet pretium finibus. Nulla eget lobortis nulla lorem.";
 		
 		TrieImpl trie = new TrieImpl(FILEPATH);
 		trie.setRoot(trie.buildTree(text));
@@ -103,7 +135,7 @@ class TrieImplTest {
 	
 	@Test
 	void testGetSuggestions_3() throws IOException {
-		ArrayList<String> suggestions = new ArrayList<>();  // Expected values.
+		ArrayList<String> suggestions = new ArrayList<>();
 		String prefix = "prefix_is_too_long";
 		String text = "this is a sample text: prefix_is_too_lon";
 		
@@ -114,7 +146,7 @@ class TrieImplTest {
 	
 	@Test
 	void testGetSuggestions_4() throws IOException {
-		ArrayList<String> suggestions = new ArrayList<>();  // Expected values.
+		ArrayList<String> suggestions = new ArrayList<>();
 		String prefix = "app";
 		String text = "app apple apples application apricot appearance apprentice";
 		
@@ -130,7 +162,7 @@ class TrieImplTest {
 	
 	@Test
 	void testGetSuggestions_5() throws IOException {
-		ArrayList<String> suggestions = new ArrayList<>();  // Expected values.
+		ArrayList<String> suggestions = new ArrayList<>();
 		String prefix = "th";
 		String text = "the them these those that that that them you me two th";
 		
@@ -146,7 +178,7 @@ class TrieImplTest {
 	
 	@Test
 	void testGetSuggestions_6() throws IOException {
-		ArrayList<String> suggestions = new ArrayList<>();  // Expected values.
+		ArrayList<String> suggestions = new ArrayList<>();
 		String prefix = "how";
 		String text = "howitzer howlo howl whose howto howitzer howard howard howitzer whodunnit hown whoisit";
 		
@@ -159,4 +191,74 @@ class TrieImplTest {
 		trie.setRoot(trie.buildTree(text));
 		assertEquals(suggestions, trie.getSuggestions(prefix));
 	}
+
+	@Test
+	void testGetSuggestions_7() throws IOException {
+		ArrayList<String> suggestions = new ArrayList<>();
+		String prefix = "1";
+		String text = "123        ''''''' ''\n\n\n \n\n'''' '\t\t \t\t''             123";
+		
+		String[] words = {"123"};  // Expected values.
+		for (String word : words) {
+			suggestions.add(word);
+		}
+		
+		TrieImpl trie = new TrieImpl(FILEPATH);
+		trie.setRoot(trie.buildTree(text));
+		assertEquals(suggestions, trie.getSuggestions(prefix));
+	}
+	
+	@Test
+	void testGetSuggestions_8() throws IOException {
+		ArrayList<String> suggestions = new ArrayList<>();  // Expected values.
+		String prefix = "1";
+		String text = "1'2'3a'4b'4'b'        ''_=-=-=-\"\"''''' ''\n\n\n \n\n'''' '\t\t \t\t'''2'3''";
+		
+		TrieImpl trie = new TrieImpl(FILEPATH);
+		trie.setRoot(trie.buildTree(text));
+		assertEquals(suggestions, trie.getSuggestions(prefix));
+	}
+	
+	@Test
+	void testGetSuggestions_9() throws IOException {
+		ArrayList<String> suggestions = new ArrayList<>();
+		String prefix = "ca";
+		String text = "can't can't can't can'can'can't caa caa caa caa caa caa";
+		
+		String[] words = {"caa", "can"};  // Expected values.
+		for (String word : words) {
+			suggestions.add(word);
+		}
+		
+		TrieImpl trie = new TrieImpl(FILEPATH);
+		trie.setRoot(trie.buildTree(text));
+		assertEquals(suggestions, trie.getSuggestions(prefix));
+	}
+	
+	@Test
+	void testGetSuggestions_10() throws IOException {
+		ArrayList<String> suggestions = new ArrayList<>();  // Expected values.
+		String prefix = "1";
+		String text = "1'2'3a'4b'4'b'        ''_=-=-=-\"\"''''' ''\n\n\n \n\n'''' '\t\t \t\t'''\t\t--11";
+		
+		TrieImpl trie = new TrieImpl(FILEPATH);
+		trie.setRoot(trie.buildTree(text));
+		assertEquals(suggestions, trie.getSuggestions(prefix));
+	}
+	
+	@Test
+	void testGetSuggestions_11() throws IOException {
+		ArrayList<String> suggestions = new ArrayList<>();
+		String prefix = "1";
+		String text = "1'2'3a'4b'4'b'        ''_=-=-=-\"\"''''' ''\n\n\n \n\n'''' '\t\t \t\t'''\t\t--111";
+		
+		String[] words = {"111"};  // Expected values.
+		for (String word : words) {
+			suggestions.add(word);
+		}
+		
+		TrieImpl trie = new TrieImpl(FILEPATH);
+		trie.setRoot(trie.buildTree(text));
+		assertEquals(suggestions, trie.getSuggestions(prefix));
+	} 
 }
