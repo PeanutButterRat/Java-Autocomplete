@@ -106,6 +106,7 @@ public class TrieImpl extends Trie {
 	public List<String> getSuggestions(String prefix) {
 		logger.trace("getSuggestions started");
 		
+		prefix = prefix.toLowerCase();
 		List<String> suggestions = new ArrayList<String>();
 		Node current = this.getRoot();
 		
