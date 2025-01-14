@@ -1,3 +1,6 @@
+## Java-Autocomplete
+This is a group project for CSC 131 (Computer Software Engineering) at California State University, Sacramento. It utilizes SwaggerUI to upload and parse a document and then receive autocompletion suggestions based on word submissions.
+
 ### How to build?
 Go to the project root directory, run this command: `./mvnw clean package`
 
